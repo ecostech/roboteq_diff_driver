@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package>
+  <name>roboteq_diff_driver</name>
+  <version>0.1.0</version>
+  <description>The roboteq_diff_driver package</description>
+  <author>Chad Attermann</author>
+  <maintainer email="chad@ecostechnologies.com">Chad Attermann</maintainer>
+  <license>BSD</license>
+  <url>https://github.com/ecostech/roboteq_diff_driver.git</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roboteq_diff_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>nav_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>topic_tools</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>serial</build_depend>
+  <run_depend>roboteq_diff_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>nav_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>topic_tools</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>serial</run_depend>
+</package>
