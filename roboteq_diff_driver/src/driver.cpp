@@ -167,8 +167,8 @@ protected:
   std::string base_frame;
   std::string cmdvel_topic;
   std::string odom_topic;
-  std::string device;
-  int baudrate;
+  std::string port;
+  int baud;
   bool open_loop;
   double wheel_circumference;
   double track_width;
@@ -202,7 +202,7 @@ MainNode::MainNode() :
 #endif
   pub_odom_tf(true),
   open_loop(false),
-  baudrate(115200),
+  baud(115200),
   wheel_circumference(0),
   track_width(0),
   encoder_ppr(0),
@@ -222,10 +222,10 @@ MainNode::MainNode() :
   ROS_INFO_STREAM("cmdvel_topic: " << cmdvel_topic);
   nhLocal.param<std::string>("odom_topic", odom_topic, "odom");
   ROS_INFO_STREAM("odom_topic: " << odom_topic);
-  nhLocal.param<std::string>("device", device, "/dev/ttyACM0");
-  ROS_INFO_STREAM("device: " << device);
-  nhLocal.param("baudrate", baudrate, 115200);
-  ROS_INFO_STREAM("baudrate: " << baudrate);
+  nhLocal.param<std::string>("port", port, "/dev/ttyACM0");
+  ROS_INFO_STREAM("port: " << port);
+  nhLocal.param("baud", baud, 115200);
+  ROS_INFO_STREAM("baud: " << baud);
   nhLocal.param("open_loop", open_loop, false);
   ROS_INFO_STREAM("open_loop: " << open_loop);
   nhLocal.param("wheel_circumference", wheel_circumference, 0.3192);
@@ -779,14 +779,14 @@ int MainNode::run()
 	ROS_INFO("Beginning setup...");
 
 	serial::Timeout timeout = serial::Timeout::simpleTimeout(1000);
-	controller.setPort(device);
-	controller.setBaudrate(baudrate);
+	controller.setPort(port);
+	controller.setBaudrate(baud);
 	controller.setTimeout(timeout);
 
 	// TODO: support automatic re-opening of port after disconnection
 	while ( ros::ok() )
 	{
-		ROS_INFO_STREAM("Opening serial port on device " << device << " at " << baudrate << "..." );
+		ROS_INFO_STREAM("Opening serial port on " << port << " at " << baud << "..." );
 		try
 		{
 			controller.open();

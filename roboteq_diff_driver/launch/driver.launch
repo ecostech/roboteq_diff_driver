@@ -12,10 +12,10 @@
     <param name="base_frame" value="base_link" />
     <!-- specify cmd_vel topic -->
     <param name="cmdvel_topic" value="cmd_vel" />
-    <!-- specify device for roboteq controller -->
-    <param name="device" value="/dev/ttyACM0" />
-    <!-- specify baudrate for roboteq controller -->
-    <param name="baudrate" value="115200" />
+    <!-- specify port for roboteq controller -->
+    <param name="port" value="/dev/ttyACM0" />
+    <!-- specify baud for roboteq controller -->
+    <param name="baud" value="115200" />
     <!-- specify whether to use open-loop motor speed control (as opposed to closed-loop)-->
     <param name="open-loop" value="false" />
     <!-- specify robot wheel circumference in meters  -->
