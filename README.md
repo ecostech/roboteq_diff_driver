@@ -17,7 +17,7 @@ Requires ROS serial package. If not already installed:
 sudo apt-get install ros-<dist>-serial
 ```
 
-Sample launch files in roboteq_diff_driver/roboteq_diff_driver/launch.
+Sample launch files in roboteq_diff_driver/launch.
 
 ## TODO
 
