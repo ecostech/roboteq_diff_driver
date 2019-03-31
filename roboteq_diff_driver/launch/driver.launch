@@ -21,7 +21,7 @@
     <!-- specify robot wheel circumference in meters  -->
     <param name="wheel_circumference" value="0.3192" />
     <!-- specify robot track width in meters  -->
-    <param name="track_wdith" value="0.4318" />
+    <param name="track_width" value="0.4318" />
     <!-- specify pulse-per-revolution for motor encoders  -->
     <param name="encoder_ppr" value="900" />
     <!-- specify counts-per-revolution for motor encoders (ppr*4 for quadrature encoders)  -->
