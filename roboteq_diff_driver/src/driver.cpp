@@ -303,6 +303,8 @@ void MainNode::cmdvel_setup()
   controller.write("^RWD 1000\r");
 //  controller.write("^RWD 250\r");
 
+  /*
+
   // set motor operating mode (1 for closed-loop speed)
   if (open_loop)
   {
@@ -347,6 +349,8 @@ void MainNode::cmdvel_setup()
   controller.write("^EMOD 1 18\r");
   controller.write("^EMOD 2 34\r");
 
+  */
+  
   // set encoder counts (ppr)
   std::stringstream right_enccmd;
   std::stringstream left_enccmd;
