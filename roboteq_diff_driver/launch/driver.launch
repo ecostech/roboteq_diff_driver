@@ -26,5 +26,9 @@
     <param name="encoder_ppr" value="900" />
     <!-- specify counts-per-revolution for motor encoders (ppr*4 for quadrature encoders)  -->
     <param name="encoder_cpr" value="3600" />
+    <!-- specify maximum motor current (amps) -->
+    <param name="max_amps" value="5.0" />
+    <!-- specify maximum motor speed (rpm) -->
+    <param name="max_rpm" value="100" />
   </node>
 </launch>

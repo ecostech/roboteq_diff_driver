@@ -174,6 +174,8 @@ protected:
   double track_width;
   int encoder_ppr;
   int encoder_cpr;
+  double max_amps;
+  int max_rpm;
 
 };
 
@@ -206,7 +208,9 @@ MainNode::MainNode() :
   wheel_circumference(0),
   track_width(0),
   encoder_ppr(0),
-  encoder_cpr(0)
+  encoder_cpr(0),
+  max_amps(0.0),
+  max_rpm(0)
 {
 
 
@@ -236,6 +240,10 @@ MainNode::MainNode() :
   ROS_INFO_STREAM("encoder_ppr: " << encoder_ppr);
   nhLocal.param("encoder_cpr", encoder_cpr, 3600);
   ROS_INFO_STREAM("encoder_cpr: " << encoder_cpr);
+  nhLocal.param("max_amps", max_amps, 5.0);
+  ROS_INFO_STREAM("max_amps: " << max_amps);
+  nhLocal.param("max_rpm", max_rpm, 100);
+  ROS_INFO_STREAM("max_rpm: " << max_rpm);
 
 }
 
@@ -260,8 +268,8 @@ ROS_DEBUG_STREAM("cmdvel speed right: " << right_speed << " left: " << left_spee
   if (open_loop)
   {
     // motor power (scale 0-1000)
-    int32_t right_power = right_speed / wheel_circumference * 60.0 / 82.0 * 1000.0;
-    int32_t left_power = left_speed / wheel_circumference * 60.0 / 82.0 * 1000.0;
+    int32_t right_power = right_speed / wheel_circumference * 60.0 / max_rpm * 1000.0;
+    int32_t left_power = left_speed / wheel_circumference * 60.0 / max_rpm * 1000.0;
 #ifdef _CMDVEL_DEBUG
 ROS_DEBUG_STREAM("cmdvel power right: " << right_power << " left: " << left_power);
 #endif
@@ -301,33 +309,38 @@ void MainNode::cmdvel_setup()
 
   // enable watchdog timer (1000 ms)
   controller.write("^RWD 1000\r");
-//  controller.write("^RWD 250\r");
 
   // set motor operating mode (1 for closed-loop speed)
   if (open_loop)
   {
+    // open-loop speed mode
     controller.write("^MMOD 1 0\r");
     controller.write("^MMOD 2 0\r");
   }
   else
   {
+    // closed-loop speed mode
     controller.write("^MMOD 1 1\r");
     controller.write("^MMOD 2 1\r");
   }
 
-  // set motor amps limit (5 A * 10)
-  controller.write("^ALIM 1 50\r");
-  controller.write("^ALIM 2 50\r");
+  // set motor amps limit (A * 10)
+  std::stringstream right_ampcmd;
+  std::stringstream left_ampcmd;
+  right_ampcmd << "^ALIM 1 " << (int)(max_amps * 10) << "\r";
+  left_ampcmd << "^ALIM 2 " << (int)(max_amps * 10) << "\r";
+  controller.write(right_ampcmd.str());
+  controller.write(left_ampcmd.str());
 
   // set max speed (rpm) for relative speed commands
-//  controller.write("^MXRPM 1 82\r");
-//  controller.write("^MXRPM 2 82\r");
-  controller.write("^MXRPM 1 100\r");
-  controller.write("^MXRPM 2 100\r");
+  std::stringstream right_rpmcmd;
+  std::stringstream left_rpmcmd;
+  right_rpmcmd << "^MXRPM 1 " << max_rpm << "\r";
+  left_rpmcmd << "^MXRPM 2 " << max_rpm << "\r";
+  controller.write(right_rpmcmd.str());
+  controller.write(left_rpmcmd.str());
 
-  // set max acceleration rate (200 rpm/s * 10)
-//  controller.write("^MAC 1 2000\r");
-//  controller.write("^MAC 2 2000\r");
+  // set max acceleration rate (2000 rpm/s * 10)
   controller.write("^MAC 1 20000\r");
   controller.write("^MAC 2 20000\r");
 
