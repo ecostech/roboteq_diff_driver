@@ -16,6 +16,11 @@
 // Define following to enable cmdvel debug output
 #define _CMDVEL_DEBUG
 
+// Define following to enable motor test mode
+//  Runs both motors in forward direction at 10% of configured maximum (rpms in close_loop mode, power in open_loop mode)
+//  If configured correctly robot should translate forward in a straight line
+//#define _CMDVEL_FORCE_RUN
+
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
@@ -288,9 +293,12 @@ ROS_DEBUG_STREAM("cmdvel rpm right: " << right_rpm << " left: " << left_rpm);
     left_cmd << "!S 2 " << left_rpm << "\r";
   }
 
+
+#ifndef _CMDVEL_FORCE_RUN
   controller.write(right_cmd.str());
   controller.write(left_cmd.str());
   controller.flush();
+#endif
 }
 
 void MainNode::cmdvel_setup()
@@ -382,10 +390,21 @@ void MainNode::cmdvel_loop()
 void MainNode::cmdvel_run()
 {
 #ifdef _CMDVEL_FORCE_RUN
-//  controller.write("!G 1 100\r");
-//  controller.write("!G 2 100\r");
-  controller.write("!S 1 10\r");
-  controller.write("!S 2 10\r");
+  if (open_loop)
+  {
+    controller.write("!G 1 100\r");
+    controller.write("!G 2 100\r");
+  }
+  else
+  {
+    std::stringstream right_cmd;
+    std::stringstream left_cmd;
+    right_cmd << "!S 1 " << (int)(max_rpm * 0.1) << "\r";
+    left_cmd << "!S 2 " << (int)(max_rpm * 0.1) << "\r";
+    controller.write(right_cmd.str());
+    controller.write(left_cmd.str());
+  }
+  controller.flush();
 #endif
 }
 
