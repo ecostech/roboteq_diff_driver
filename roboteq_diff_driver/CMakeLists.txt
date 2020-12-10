@@ -18,7 +18,7 @@ include_directories(
 add_executable(${PROJECT_NAME}_driver src/driver.cpp)
 target_link_libraries(${PROJECT_NAME}_driver ${catkin_LIBRARIES})
 set_target_properties(${PROJECT_NAME}_driver PROPERTIES OUTPUT_NAME driver PREFIX "")
-add_dependencies(${PROJECT_NAME}_driver roboteq_diff_msgs_gencpp)
+#add_dependencies(${PROJECT_NAME}_driver roboteq_diff_msgs_gencpp)
 
 install(
   TARGETS ${PROJECT_NAME}_driver
