@@ -17,7 +17,7 @@
     <!-- specify baud for roboteq controller -->
     <param name="baud" value="115200" />
     <!-- specify whether to use open-loop motor speed control (as opposed to closed-loop)-->
-    <param name="open-loop" value="false" />
+    <param name="open_loop" value="false" />
     <!-- specify robot wheel circumference in meters  -->
     <param name="wheel_circumference" value="0.3192" />
     <!-- specify robot track width in meters  -->
